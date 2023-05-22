@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VICE TRACER</title>
+
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="tracer.js"></script>
+
+    <style>
+      .div-center {
+        margin: auto;
+        border: 3px solid rgba(0, 0, 0, 0.326);
+        padding: 10px;
+      }
+
+      .ui-slider .ui-slider-handle {
+        width: 0.8em;
+      }
+
+      .ui-slider-range {
+        background: cadetblue;
+      }
+
+      html {
+        height: 100%;
+      }
+      body {
+        min-height: 100%;
+        padding: 0;
+        margin: 0;
+        position: relative;
+      }
+
+      body::after {
+        content: "";
+        display: block;
+        height: 100px;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background: cadetblue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div
+      class="chart-container div-center"
+      style="
+        position: relative;
+        height: 40vh;
+        width: 80vw;
+        margin-top: 50px;
+        margin-bottom: 75px;
+      "
+    >
+      <canvas id="myChart"></canvas>
+      <br />
+      <div id="slider-range"></div>
+      <p style="text-align: center">
+        <label for="amount">Sample range:</label>
+        <input
+          type="text"
+          id="amount"
+          readonly
+          style="border: 0; color: #f6931f; font-weight: bold"
+        />
+      </p>
+    </div>
+    <div style="text-align: center">
+      <textarea
+        rows="5"
+        id="traceDataSource"
+        placeholder="enter your json or url here"
+        style="min-width: 90%; max-width: 90%"
+        oninput="parseData(this.value)"
+      ></textarea>
+      <br /><br />
+      <label for="api" class="form-label">Choose Trace : </label>
+      <select
+        name="api"
+        id="api"
+        oninput="showChart(data, this.value)"
+      ></select>
+      <label for="timer" class="form-label">Set refresh rate : </label>
+      <input type="number" name="timer" id="timer" value="2" />
+      <button
+        id="refreshStartBtn"
+        onclick="startRefreshTimer(document.getElementById('timer').value)"
+      >
+        Start Refresh
+      </button>
+      <button id="refreshStopBtn" onclick="stopRefreshTimer()">
+        Stop Refresh
+      </button>
+    </div>
+    <footer>
+      <p>
+        Having performance issues when you have done everything right? Just
+        export traces json or expose an api. And see how much time a certain
+        piece of code is taking. Click <a href="#" onclick="test()">here</a> to
+        genernate sample trace data or
+        <a href="#" onclick="downloadSampleTraceJSON(testData, 'sample-trace')"
+          >download</a
+        >.
+      </p>
+    </footer>
+  </body>
+</html>
